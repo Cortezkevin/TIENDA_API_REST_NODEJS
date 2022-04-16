@@ -1,0 +1,46 @@
+const { check } = require("express-validator");
+const validateResults = require("../utils/handleValidator");
+
+/**
+ * Validador de Campos al registrar un Usuario
+ */
+const validatorRegister = [
+    check("name")
+    .exists()
+    .notEmpty()
+    .isLength({min:3, max:99}),
+    check("age")
+    .exists()
+    .notEmpty()
+    .isNumeric(),
+    check("password")
+    .exists()
+    .notEmpty()
+    .isLength({min:3, max:15}),
+    check("email")
+    .exists()
+    .notEmpty()
+    .isEmail(),
+    (req, res, next) => {
+        return validateResults(req, res, next);
+    }
+];
+
+/**
+ * Validador de Campos al loguear un Usuario
+ */
+const validatorLogin = [  
+    check("password")
+    .exists()
+    .notEmpty()
+    .isLength({min: 3, max: 15}),
+    check("email")
+    .exists()
+    .notEmpty()
+    .isEmail(),
+    (req, res, next) => {
+        return validateResults(req, res, next);
+    }
+];
+
+module.exports = { validatorRegister, validatorLogin };
